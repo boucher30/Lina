@@ -51,7 +51,7 @@ app.setHandler({
                 this.$speech.addT('response.birthday', {name, date})
             }
         }
-        this.tell(this.$speech);
+        this.ask(this.$speech);
     },
     QnAIntent() {
         let sqValue = this.$inputs.SQ.value
@@ -59,10 +59,10 @@ app.setHandler({
         var sheet = getSheet2();
 
         //this.tell(this.t(sheet[0][1]))
-        for (let x = 0; x < 2; x++){
+        for (let x = 0; x < sheet.length; x++){
 
             if (this.t(sheet[x][0]) == sqValue){
-                this.tell(this.t(sheet[x][1]))
+                this.ask(this.t(sheet[x][1]))
             }
         }
     },

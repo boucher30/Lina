@@ -15,8 +15,8 @@
         "en-US": {}
       },
       "allowsPurchases": false,
-      "usesPersonalInfo": true,
-      "isChildDirected": true,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
       "isExportCompliant": true,
       "containsAds": false
     },
