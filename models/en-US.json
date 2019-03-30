@@ -38,6 +38,15 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "announcementsIntent",
+			"phrases": [
+				"announcements please",
+				"what about the announcements",
+				"what are the announcements",
+				"tell me the announcements"
+			]
 		}
 	],
 	"alexa": {

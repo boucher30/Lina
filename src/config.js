@@ -34,6 +34,10 @@ module.exports = {
                     name: 'QnA',
                     position: 3,
                 },
+                {
+                    name: 'announcements',
+                    position: 4,
+                },
             ]
         }
     },

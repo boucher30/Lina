@@ -45,10 +45,20 @@
             "search for {SQ}",
             "i wonder {SQ}"
           ]
+        },
+        {
+          "name": "announcementsIntent",
+          "slots": [],
+          "samples": [
+            "announcements please",
+            "what about the announcements",
+            "what are the announcements",
+            "tell me the announcements"
+          ]
         }
       ],
       "types": []
     }
   },
-  "version": "7"
+  "version": "17"
 }

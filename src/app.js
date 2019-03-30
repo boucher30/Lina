@@ -33,7 +33,19 @@ function getSheet2(){
     var sheet = app.$cms.QnA.slice();
     return sheet;
 }
-
+function getSheet3(){
+    var sheet = app.$cms.announcements.slice();
+    return sheet;
+}
+function getToDate(){
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    today = mm + '/' + dd + '/' + yyyy;
+    
+    return today;
+}
 app.setHandler({
     
     LAUNCH() {
@@ -65,6 +77,27 @@ app.setHandler({
                 this.ask(this.t(sheet[x][1]))
             }
         }
+    },
+    announcementsIntent(){
+        //let sqValue = this.$inputs.SQ.value
+
+        var sheet = getSheet3();
+
+        var datetoday = getToDate();
+        for (let x = 0; x < sheet.length; x++){
+
+            if (this.t(sheet[x][0]) == datetoday){
+                this.ask(this.t(sheet[x][1]))
+            }
+        }
+        //this.tell(datetoday)
+        //this.tell(this.t(sheet[0][1]))
+        //for (let x = 0; x < sheet.length; x++){
+
+        //    if (this.t(sheet[x][0]) == sqValue){
+        //        this.ask(this.t(sheet[x][1]))
+        //    }
+        //}
     },
 });
 
