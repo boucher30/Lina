@@ -18,7 +18,8 @@ module.exports = {
      cms: {
         GoogleSheetsCMS: {
             spreadsheetId: '1sBMAepx5JS_35CvV44BCsweZi-5AGAxD-7vvGLKxAh0',
-            access: 'public',
+            access: 'private',
+            credentialsFile: './credentials/creds.json',
             sheets: [
                 {
                     name: 'birthdays',
