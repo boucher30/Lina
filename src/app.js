@@ -11,7 +11,7 @@ const { FileDb } = require('jovo-db-filedb');
 const { GoogleSheetsCMS } = require('jovo-cms-googlesheets');
 
 const NAME_INDEX = 0;
-const DATE_Index = 1;
+const DATE_INDEX = 1;
 const app = new App();
 
 app.use(
@@ -21,7 +21,10 @@ app.use(
     new FileDb()
 );
 
-
+function getSheet(){
+    var sheet = app.$cms.birthdays.slice();
+    return sheet;
+}
 // ------------------------------------------------------------------
 // APP LOGIC
 // ------------------------------------------------------------------
@@ -29,15 +32,20 @@ app.use(
 app.setHandler({
     
     LAUNCH() {
-        return this.toIntent('HelloWorldIntent');
+        return this.toIntent('BirthdayIntent');
     },
 
-    HelloWorldIntent() {
-        this.ask('Hello World! What\'s your name?', 'Please tell me your name.');
-    },
-
-    MyNameIsIntent() {
-        this.tell(this.t(this.$cms.birthdays[1][0]));
+    BirthdayIntent() {
+        var sheet = getSheet();
+        let name = this.$inputs.name.value;
+        for(let j = 1; j < sheet.length; j++){
+            let value = sheet[j][NAME_INDEX];
+            if(name === value){
+                let date = sheet[j][DATE_INDEX];
+                this.$speech.addT('response.birthday', {name, date})
+            }
+        }
+        this.tell(this.$speech);
     },
 });
 

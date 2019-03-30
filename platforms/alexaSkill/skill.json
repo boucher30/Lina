@@ -1,29 +1,44 @@
 {
-	"manifest": {
-		"publishingInformation": {
-			"locales": {
-				"en-US": {
-					"summary": "Sample Short Description",
-					"examplePhrases": [
-						"Alexa open hello world"
-					],
-					"name": "Lina",
-					"description": "Sample Full Description"
-				}
-			},
-			"isAvailableWorldwide": true,
-			"testingInstructions": "Sample Testing Instructions.",
-			"category": "EDUCATION_AND_REFERENCE",
-			"distributionCountries": []
-		},
-		"apis": {
-			"custom": {
-				"endpoint": {
-					"sslCertificateType": "Wildcard",
-					"uri": "https://webhook.jovo.cloud/c970ffcd-3655-4ae5-881d-beb0d4adb705"
-				}
-			}
-		},
-		"manifestVersion": "1.0"
-	}
+  "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "https://webhook.jovo.cloud/c970ffcd-3655-4ae5-881d-beb0d4adb705",
+          "sslCertificateType": "Wildcard"
+        },
+        "interfaces": []
+      }
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "locales": {
+        "en-US": {}
+      },
+      "allowsPurchases": false,
+      "usesPersonalInfo": true,
+      "isChildDirected": true,
+      "isExportCompliant": true,
+      "containsAds": false
+    },
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "name": "Lina",
+          "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/cc45/8292ffa828b8428a90a87dec926bee4f/APP_ICON?versionId=2v2ytt1RktMxPDeApqyo3ys_c9ZZPMES&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1554048295&Signature=1GBYYthYr8w65ZnwaRzapftOuX8%3D",
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/b134/527e71263a244421b1bcd389d2043d0d/APP_ICON_LARGE?versionId=9b7Jg4d4TAptFYIywpc6l2fzRWmk_RHi&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1554048295&Signature=dJmgLPFC2aV2SNMVPpShBHPuiI0%3D",
+          "summary": "South Jersey Innovation Center's personal assistant.",
+          "description": "This skill provides a beautiful interface, known as Lina, to open the world of the SJIC. Ask Lina frequently asked questions about past and upcoming events. Learn more about the content the center provides. You can even engage the students by playing their birthday.",
+          "examplePhrases": [
+            "Alexa open lina"
+          ],
+          "keywords": [],
+          "updatesDescription": "- Event Calendar\n- Birthdays"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Sample Testing Instructions.",
+      "category": "EDUCATION_AND_REFERENCE",
+      "distributionCountries": []
+    }
+  }
 }

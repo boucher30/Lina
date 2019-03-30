@@ -1,16 +1,23 @@
 {
-	"invocation": "my test app",
+	"invocation": "lina",
 	"intents": [
 		{
-			"name": "HelloWorldIntent",
+			"name": "BirthdayIntent",
 			"phrases": [
-				"hello",
-				"say hello",
-				"say hello world"
+				"today is {name} birthday",
+				"when is {name} birthday"
+			],
+			"inputs": [
+				{
+					"name": "name",
+					"type": {
+						"alexa": "AMAZON.US_FIRST_NAME"
+					}
+				}
 			]
 		},
 		{
-			"name": "MyNameIsIntent",
+			"name": "QnAIntent",
 			"phrases": [
 				"{name}",
 				"my name is {name}",
@@ -19,10 +26,9 @@
 			],
 			"inputs": [
 				{
-					"name": "name",
+					"name": "SQ",
 					"type": {
-						"alexa": "AMAZON.US_FIRST_NAME",
-						"dialogflow": "@sys.given-name"
+						"alexa": "AMAZON.SearchQuery"
 					}
 				}
 			]
