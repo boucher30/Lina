@@ -39,6 +39,9 @@ app.setHandler({
     MyNameIsIntent() {
         this.tell(this.t(this.$cms.birthdays[1][0]));
     },
+    QnAIntent() {
+        
+    },
 });
 
 module.exports.app = app;
