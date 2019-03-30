@@ -37,7 +37,8 @@ function getSheet2(){
 app.setHandler({
     
     LAUNCH() {
-        return this.toIntent('BirthdayIntent');
+        this.$speech.addT('response.greeting')
+        this.ask(this.$speech);
     },
 
     BirthdayIntent() {
