@@ -41,6 +41,8 @@
             }
           ],
           "samples": [
+            "find out {SQ}",
+            "search for {SQ}",
             "i wonder {SQ}"
           ]
         }
@@ -48,5 +50,5 @@
       "types": []
     }
   },
-  "version": "6"
+  "version": "7"
 }

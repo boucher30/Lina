@@ -19,16 +19,22 @@
 		{
 			"name": "QnAIntent",
 			"phrases": [
-				"{name}",
-				"my name is {name}",
-				"i am {name}",
-				"you can call me {name}"
+				"find out {SQ}",
+            	"search for {SQ}",
+            	"i wonder {SQ}"
 			],
 			"inputs": [
 				{
 					"name": "SQ",
 					"type": {
 						"alexa": "AMAZON.SearchQuery"
+					}
+				},
+				{
+					"name": "SQ",
+					"type": {
+						"alexa": "AMAZON.SearchQuery",
+						"dialogflow": "@sys.given-name"
 					}
 				}
 			]
