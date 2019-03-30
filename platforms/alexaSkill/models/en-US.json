@@ -1,45 +1,54 @@
 {
-	"interactionModel": {
-		"languageModel": {
-			"invocationName": "my test app",
-			"types": [],
-			"intents": [
-				{
-					"name": "HelloWorldIntent",
-					"samples": [
-						"hello",
-						"say hello",
-						"say hello world"
-					]
-				},
-				{
-					"name": "MyNameIsIntent",
-					"samples": [
-						"{name}",
-						"my name is {name}",
-						"i am {name}",
-						"you can call me {name}"
-					],
-					"slots": [
-						{
-							"name": "name",
-							"type": "AMAZON.US_FIRST_NAME"
-						}
-					]
-				},
-				{
-					"name": "AMAZON.CancelIntent",
-					"samples": []
-				},
-				{
-					"name": "AMAZON.HelpIntent",
-					"samples": []
-				},
-				{
-					"name": "AMAZON.StopIntent",
-					"samples": []
-				}
-			]
-		}
-	}
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "lina",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "BirthdayIntent",
+          "slots": [
+            {
+              "name": "name",
+              "type": "AMAZON.US_FIRST_NAME"
+            }
+          ],
+          "samples": [
+            "today is {name} birthday",
+            "when is {name} birthday"
+          ]
+        },
+        {
+          "name": "QnAIntent",
+          "slots": [
+            {
+              "name": "SQ",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "find out {SQ}",
+            "search for {SQ}",
+            "i wonder {SQ}"
+          ]
+        }
+      ],
+      "types": []
+    }
+  },
+  "version": "7"
 }

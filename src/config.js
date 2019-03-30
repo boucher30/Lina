@@ -32,7 +32,6 @@ module.exports = {
                 },
                 {
                     name: 'QnA',
-                    type: 'Responses',
                     position: 3,
                 },
             ]

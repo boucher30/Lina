@@ -26,6 +26,11 @@ app.use(
 // APP LOGIC
 // ------------------------------------------------------------------
 
+function getSheet(){
+    var sheet = app.$cms.QnA.slice();
+    return sheet;
+}
+
 app.setHandler({
     
     LAUNCH() {
@@ -40,7 +45,17 @@ app.setHandler({
         this.tell(this.t(this.$cms.birthdays[1][0]));
     },
     QnAIntent() {
-        
+        let sqValue = this.$inputs.SQ.value
+
+        var sheet = getSheet();
+
+        //this.tell(this.t(sheet[0][1]))
+        for (let x = 0; x < 2; x++){
+
+            if (this.t(sheet[x][0]) == sqValue){
+                this.tell(this.t(sheet[x][1]))
+            }
+        }
     },
 });
 
