@@ -35,7 +35,7 @@ module.exports = {
                     position: 3,
                 },
                 {
-                    name: 'announcements',
+                    name: 'Announcements',
                     position: 4,
                 },
             ]

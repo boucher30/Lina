@@ -13,6 +13,9 @@ const { GoogleSheetsCMS } = require('jovo-cms-googlesheets');
 const NAME_INDEX = 0;
 const DATE_INDEX = 1;
 const app = new App();
+var x = 0;
+var y = 0;
+var announcementstext = ""; 
 
 app.use(
     new Alexa(),
@@ -34,7 +37,7 @@ function getSheet2(){
     return sheet;
 }
 function getSheet3(){
-    var sheet = app.$cms.announcements.slice();
+    var sheet = app.$cms.Announcements.slice();
     return sheet;
 }
 function getToDate(){
@@ -80,14 +83,36 @@ app.setHandler({
     },
     announcementsIntent(){
         //let sqValue = this.$inputs.SQ.value
+        //let speech = this.speechBuilder();
 
         var sheet = getSheet3();
 
         var datetoday = getToDate();
-        for (let x = 0; x < sheet.length; x++){
+        console.log(this.t(sheet[1][2]));
+        for (x = 0; x < sheet.length; x++){
 
             if (this.t(sheet[x][0]) == datetoday){
-                this.ask(this.t(sheet[x][1]))
+                //this.ask(this.t(sheet[x][1]))
+                var numData = this.t(sheet[x][1]);
+                var rnum = parseInt(numData);
+                announcementstext = announcementstext + "The Announcments are";
+                for (y = 2; y < rnum+2; y++){
+                    console.log(x);
+                    console.log(y);
+                    //console.log(x);
+                    //announcementstext = announcementstext + this.t(sheet[x][y]);
+                    console.log(this.t(sheet[x][y]));//1, 2/3
+                    announcementstext= announcementstext.concat(this.t(sheet[x][y]))
+                    //print(y);
+                    //this.$speech.addText(this.t(sheet[x][y]))
+                                //.addBreak('300ms');
+                    //speech.addText(this.t(sheet[x][y]));
+                    
+                }
+                console.log(announcementstext);
+                //this.tell(announcementstext);
+                //this.tell(this.$speech);
+                //this.tell(speech);
             }
         }
         //this.tell(datetoday)
