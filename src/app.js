@@ -9,6 +9,7 @@ const { Alexa } = require('jovo-platform-alexa');
 const { JovoDebugger } = require('jovo-plugin-debugger');
 const { FileDb } = require('jovo-db-filedb');
 const { GoogleSheetsCMS } = require('jovo-cms-googlesheets');
+const https = require('https');
 
 const NAME_INDEX = 0;
 const DATE_INDEX = 1;
@@ -124,6 +125,24 @@ app.setHandler({
         //    }
         //}
     },
+    //SignupIntent(){
+    //    let cliname = this.$inputs.username.value
+    //    let classes = this.$inputs.classes.value
+    //    this.tell('hello ' + cliname + ', your signing up for ' + classes + ', please see Anita to complete you signup')//end
+    //}
+    SignupInitIntent(){
+        let cliname = this.$inputs.username.value
+        //also https.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', (resp) => {
+        //let data = '';
+        https.get("https://bluemansrun.tk/AlexaParser/parsesignup.php?name="+cliname);
+        this.ask('hello '+ cliname + ' what would you like to sign up for?');//kill here
+    },
+    SignupBaseIntent(){
+        let classes = this.$inputs.classes.value
+        //write
+        https.get("https://bluemansrun.tk/AlexaParser/parsesignup.php?classes="+classes);
+        this.ask("your signing up for " + classes + ', please see Anita to complete you signup');//kill here
+    }
 });
 
 module.exports.app = app;
