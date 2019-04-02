@@ -2,6 +2,8 @@
 
 // ------------------------------------------------------------------
 // APP INITIALIZATION
+//lamda Function:
+//arn:aws:lambda:us-east-1:687806271339:function:LinaLamdaFunction
 // ------------------------------------------------------------------
 
 const { App } = require('jovo-framework');
