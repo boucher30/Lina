@@ -170,7 +170,7 @@ app.setHandler({
         this.ask(speech);
     },
     CreditsIntent(){
-        this.ask("Thanks to RJ and Vlad for programing this using Jovoa and Google Sheets. Also thanks to Anita for maintaining the database for this project and Dov for comming up with the idea");
+        this.ask("Thanks to RJ and Vlad for programing this using Jovo and Google Sheets. Also thanks to Anita for maintaining the database for this project and Dov for comming up with the idea");
     }
 });
 
