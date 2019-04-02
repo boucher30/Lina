@@ -39,8 +39,8 @@ module.exports = {
                     position: 4,
                 },
                 {
-                    name: 'Chalange',
-                    position: 4,
+                    name: 'Challenge',
+                    position: 5,
                 },
             ]
         }

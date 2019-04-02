@@ -43,6 +43,10 @@ function getSheet3(){
     var sheet = app.$cms.Announcements.slice();
     return sheet;
 }
+function getSheet4(){
+    var sheet = app.$cms.Challenge.slice();
+    return sheet;
+}
 function getToDate(){
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -150,6 +154,23 @@ app.setHandler({
         var numtwo = parseInt(this.$inputs.numtwo.value);
         let mulitplynum = numone * numtwo
         this.ask("You should visit Tania's class to learn that. Just kidding it is " + mulitplynum);
+    },
+    ChallengeIntent(){
+        let sheet4 = getSheet4();
+        let speech = this.speechBuilder();
+        speech.addText('In third place is ' + this.t(sheet4[3][1]) + ' with ' + this.t(sheet4[3][2]) + ' points')
+                        .addAudio('./ClapClap.mp3')
+                        .addBreak('300ms');
+        speech.addText('In second place is ' + this.t(sheet4[2][1]) + ' with ' + this.t(sheet4[2][2]) + ' points')
+                        .addAudio('./ClapClap.mp3')
+                        .addBreak('300ms');
+        speech.addText('In First place is ' + this.t(sheet4[1][1]) + ' with ' + this.t(sheet4[1][2]) + ' points')
+                        .addAudio('./LoudClapClap.mp3')
+                        .addBreak('300ms');
+        this.ask(speech);
+    },
+    CreditsIntent(){
+        this.ask("Thanks to RJ and Vlad for programing this using Jovoa and Google Sheets. Also thanks to Anita for maintaining the database for this project and Dov for comming up with the idea");
     }
 });
 
