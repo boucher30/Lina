@@ -136,14 +136,20 @@ app.setHandler({
         let cliname = this.$inputs.username.value
         //also https.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', (resp) => {
         //let data = '';
-        https.get("https://bluemansrun.tk/AlexaParser/parsesignup.php?name="+cliname);
+        //https.get("https://bluemansrun.tk/AlexaParser/parsesignup.php?name="+cliname);
         this.ask('hello '+ cliname + ' what would you like to sign up for?');//kill here
     },
     SignupBaseIntent(){
         let classes = this.$inputs.classes.value
         //write
-        https.get("https://bluemansrun.tk/AlexaParser/parsesignup.php?classes="+classes);
+        //https.get("https://bluemansrun.tk/AlexaParser/parsesignup.php?classes="+classes);
         this.ask("your signing up for " + classes + ', please see Anita to complete you signup');//kill here
+    },
+    MultiplyIntent(){
+        var numone = parseInt(this.$inputs.numone.value);
+        var numtwo = parseInt(this.$inputs.numtwo.value);
+        let mulitplynum = numone * numtwo
+        this.ask("You should visit Tania's class to learn that. Just kidding it is " + mulitplynum);
     }
 });
 

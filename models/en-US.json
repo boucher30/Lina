@@ -76,6 +76,26 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "MultiplyIntent",
+			"phrases": [
+				"what is {numone} times {numtwo}"
+			],
+			"inputs": [
+				{
+					"name": "numone",
+					"type": {
+						"alexa": "AMAZON.NUMBER"
+					}
+				  },
+				  {
+					"name": "numtwo",
+					"type": {
+						"alexa": "AMAZON.NUMBER"
+					}
+				  }
+			]
 		}
 	],
 	"alexa": {

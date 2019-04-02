@@ -82,10 +82,26 @@
             "for {classes}",
             "I would like to sign up for {classes}"
           ]
+        },
+        {
+          "name": "MultiplyIntent",
+          "slots": [
+            {
+              "name": "numone",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "numtwo",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "what is {numone} times {numtwo}"
+          ]
         }
       ],
       "types": []
     }
   },
-  "version": "20"
+  "version": "24"
 }
