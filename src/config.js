@@ -38,6 +38,10 @@ module.exports = {
                     name: 'Announcements',
                     position: 4,
                 },
+                {
+                    name: 'Chalange',
+                    position: 4,
+                },
             ]
         }
     },
