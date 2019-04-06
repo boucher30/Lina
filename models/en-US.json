@@ -38,6 +38,64 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "announcementsIntent",
+			"phrases": [
+				"announcements please",
+				"what about the announcements",
+				"what are the announcements",
+				"tell me the announcements"
+			]
+		},
+		{
+			"name": "SignupInitIntent",
+			"phrases": [
+				"i would like to signup as {username}"
+			],
+			"inputs": [
+				{
+					"name": "username",
+					"type": {
+						"alexa": "AMAZON.US_FIRST_NAME"
+					}
+				}
+			]
+		},
+		{
+			"name": "SignupBaseIntent",
+			"phrases": [
+				"for {classes}",
+				"I would like to sign up for {classes}"
+			],
+			"inputs": [
+				{
+					"name": "classes",
+					"type": {
+						"alexa": "AMAZON.SearchQuery"
+					}
+				}
+			]
+		},
+		{
+			"name": "MultiplyIntent",
+			"phrases": [
+				"what is {numone} times {numtwo}"
+			],
+			"inputs": [
+				{
+					"name": "numone",
+					"type": {
+						"alexa": "AMAZON.NUMBER"
+					}
+				  },
+				  {
+					"name": "numtwo",
+					"type": {
+						"alexa": "AMAZON.NUMBER"
+					}
+				  }
+			]
 		}
 	],
 	"alexa": {

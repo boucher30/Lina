@@ -41,14 +41,67 @@
             }
           ],
           "samples": [
+            "how about {SQ}",
             "find out {SQ}",
             "search for {SQ}",
             "i wonder {SQ}"
+          ]
+        },
+        {
+          "name": "announcementsIntent",
+          "slots": [],
+          "samples": [
+            "please tell me the announcements",
+            "announcements please",
+            "what about the announcements",
+            "what are the announcements",
+            "tell me the announcements"
+          ]
+        },
+        {
+          "name": "SignupInitIntent",
+          "slots": [
+            {
+              "name": "username",
+              "type": "AMAZON.US_FIRST_NAME"
+            }
+          ],
+          "samples": [
+            "i would like to signup as {username}"
+          ]
+        },
+        {
+          "name": "SignupBaseIntent",
+          "slots": [
+            {
+              "name": "classes",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "for {classes}",
+            "I would like to sign up for {classes}"
+          ]
+        },
+        {
+          "name": "MultiplyIntent",
+          "slots": [
+            {
+              "name": "numone",
+              "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "numtwo",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "what is {numone} times {numtwo}"
           ]
         }
       ],
       "types": []
     }
   },
-  "version": "7"
+  "version": "24"
 }
