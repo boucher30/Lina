@@ -26,13 +26,21 @@ module.exports = {
                     position: 1,
                 },
                 {
-                    name: 'responses',
-                    type: 'Responses',
+                    name: 'questions',
                     position: 2,
                 },
                 {
-                    name: 'QnA',
+                    name: 'announcements',
                     position: 3,
+                },
+                {
+                    name: 'challenge',
+                    position: 4,
+                },
+                {
+                    name: 'responses',
+                    type: 'Responses',
+                    position: 5,
                 },
             ]
         }

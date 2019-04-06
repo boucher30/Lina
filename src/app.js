@@ -21,18 +21,28 @@ app.use(
     new FileDb()
 );
 
-function getSheet1(){
-    var sheet = app.$cms.birthdays.slice();
+function getSheet(name){
+    var sheet;
+    switch(name){
+        case "birthdays":
+            sheet = app.$cms.birthdays.slice();
+            break;
+        case "questions":
+            sheet = app.$cms.questions.slice(); 
+            break;
+        case "announcements":
+            sheet = app.$cms.announcements.slice();
+            break;
+        case "challenge":
+            sheet = app.$cms.challenge.slice();
+            break;
+    }
     return sheet;
 }
 // ------------------------------------------------------------------
 // APP LOGIC
 // ------------------------------------------------------------------
 
-function getSheet2(){
-    var sheet = app.$cms.QnA.slice();
-    return sheet;
-}
 
 app.setHandler({
     
@@ -42,7 +52,7 @@ app.setHandler({
     },
 
     BirthdayIntent() {
-        var sheet = getSheet1();
+        var sheet = getSheet("birthdays");
         let name = this.$inputs.name.value;
         for(let j = 1; j < sheet.length; j++){
             let value = sheet[j][NAME_INDEX];
@@ -53,10 +63,11 @@ app.setHandler({
         }
         this.ask(this.$speech);
     },
+
     QnAIntent() {
         let sqValue = this.$inputs.SQ.value
 
-        var sheet = getSheet2();
+        var sheet = getSheet("questions");
 
         //this.tell(this.t(sheet[0][1]))
         for (let x = 0; x < sheet.length; x++){
