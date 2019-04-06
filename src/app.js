@@ -55,9 +55,24 @@ app.setHandler({
         var sheet = getSheet("birthdays");
         let name = this.$inputs.name.value;
         for(let j = 1; j < sheet.length; j++){
-            let value = sheet[j][NAME_INDEX];
-            if(name === value){
-                let date = sheet[j][DATE_INDEX];
+            let nameInSheet = sheet[j][NAME_INDEX];
+            if(name === nameInSheet){
+                let dateInSheet = sheet[j][DATE_INDEX];
+
+                let todayDate = new Date();
+                let today = todayDate.getDay();
+                let month = todayDate.getMonth() + 1;
+
+                let dayInSheet = dateInSheet.substring(3,5);
+                let monthInSheet = dateInSheet.substring(0,2);
+                
+                console.log(
+                    "Today's Day: " + today +
+                    "\nToday's Month: " + month + 
+                    "\nSheet's Day: " + dayInSheet + 
+                    "\nSheet's Month: " + monthInSheet
+                )
+                
                 this.$speech.addT('response.birthday', {name, date})
             }
         }
