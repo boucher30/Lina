@@ -26,20 +26,19 @@ module.exports = {
                     position: 1,
                 },
                 {
-                    name: 'responses',
-                    type: 'Responses',
+                    name: 'questions',
                     position: 2,
                 },
                 {
-                    name: 'QnA',
+                    name: 'announcements',
                     position: 3,
                 },
                 {
-                    name: 'Announcements',
+                    name: 'challenge',
                     position: 4,
                 },
                 {
-                    name: 'Challenge',
+                    name: 'responses',
                     position: 5,
                 },
             ]

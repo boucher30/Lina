@@ -27,24 +27,27 @@ app.use(
     new FileDb()
 );
 
-function getSheet1(){
-    var sheet = app.$cms.birthdays.slice();
-    return sheet;
-}
+
 // ------------------------------------------------------------------
 // APP LOGIC
 // ------------------------------------------------------------------
 
-function getSheet2(){
-    var sheet = app.$cms.QnA.slice();
-    return sheet;
-}
-function getSheet3(){
-    var sheet = app.$cms.Announcements.slice();
-    return sheet;
-}
-function getSheet4(){
-    var sheet = app.$cms.Challenge.slice();
+function getSheet(name){
+    var sheet;
+    switch(name){
+        case "birthdays":
+            sheet = app.$cms.birthdays.slice();
+            break;
+        case "questions":
+            sheet = app.$cms.questions.slice(); 
+            break;
+        case "announcements":
+            sheet = app.$cms.announcements.slice();
+            break;
+        case "challenge":
+            sheet = app.$cms.challenge.slice();
+            break;
+    }
     return sheet;
 }
 function getToDate(){
@@ -64,7 +67,7 @@ app.setHandler({
     },
 
     BirthdayIntent() {
-        var sheet = getSheet1();
+        var sheet = getSheet("birthdays");
         let name = this.$inputs.name.value;
         for(let j = 1; j < sheet.length; j++){
             let value = sheet[j][NAME_INDEX];
@@ -78,7 +81,7 @@ app.setHandler({
     QnAIntent() {
         let sqValue = this.$inputs.SQ.value
 
-        var sheet = getSheet2();
+        var sheet = getSheet("questions");
 
         //this.tell(this.t(sheet[0][1]))
         for (let x = 0; x < sheet.length; x++){
@@ -92,7 +95,7 @@ app.setHandler({
         //let sqValue = this.$inputs.SQ.value
         //let speech = this.speechBuilder();
 
-        var sheet = getSheet3();
+        var sheet = getSheet("announcements");
 
         var datetoday = getToDate();
         console.log(this.t(sheet[1][2]));
@@ -156,7 +159,7 @@ app.setHandler({
         this.ask("You should visit Tania's class to learn that. Just kidding it is " + mulitplynum);
     },
     ChallengeIntent(){
-        let sheet4 = getSheet4();
+        var sheet = getSheet("challenge");
         let speech = this.speechBuilder();
         speech.addText('In third place is ' + this.t(sheet4[3][1]) + ' with ' + this.t(sheet4[3][2]) + ' points')
                         .addAudio('./ClapClap.mp3')
@@ -165,7 +168,7 @@ app.setHandler({
                         .addAudio('./ClapClap.mp3')
                         .addBreak('300ms');
         speech.addText('In First place is ' + this.t(sheet4[1][1]) + ' with ' + this.t(sheet4[1][2]) + ' points')
-                        .addAudio('./LoudClapClap.mp3')
+                        .addAudio('./ClapClap.mp3')
                         .addBreak('300ms');
         this.ask(speech);
     },
