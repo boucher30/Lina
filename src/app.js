@@ -13,6 +13,7 @@ const { FileDb } = require('jovo-db-filedb');
 const { GoogleSheetsCMS } = require('jovo-cms-googlesheets');
 const https = require('https');
 
+//Declare Sheet global constants here
 const NAME_INDEX = 0;
 const DATE_INDEX = 1;
 const app = new App();
@@ -27,6 +28,7 @@ app.use(
     new FileDb()
 );
 
+//Point app to the desired sheet to get required data
 function getSheet(name){
     var sheet;
     switch(name){
@@ -49,6 +51,7 @@ function getSheet(name){
 // APP LOGIC
 // ------------------------------------------------------------------
 
+//Print out the date in a user friendly format
 function getToDate(){
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -58,13 +61,21 @@ function getToDate(){
     
     return today;
 }
+
+//Handler for all intents
 app.setHandler({
     
+    //Open starting Handler
     LAUNCH() {
         this.$speech.addT('response.greeting')
         this.ask(this.$speech);
     },
 
+    /*
+        Takes in a name from user, compares it to the birthdays sheet. Will
+        report their birthday date unless it is the current date
+        and will instead play a celebratory song.
+    */
     BirthdayIntent() {
         var sheet = getSheet("birthdays");
         let name = this.$inputs.name.value;
@@ -87,12 +98,10 @@ app.setHandler({
                 console.log(monthInSheet);
                 
                 if(dayInSheet.includes(today) && monthInSheet.includes(month)){
-                    //this.$speech.addT("response.playBirthday", {name}).addAudio("../audio/Happy_Birthday_to_You_Boi.mp3");
-                    
-                    this.$speech.addText("Today is " + name + "'s birthday, let's celebrate!").addAudio("https://s3.amazonaws.com/lina1234/happy-birthday.mp3");
+                    //"Today is " + name + "'s birthday, let's celebrate!"
+                    this.$speech.addText(this.t('response.playBirthday', {name})).addAudio("https://s3.amazonaws.com/lina1234/happy-birthday.mp3");
                 }
                 else{
-                    //this.$speech.addT('response.birthday', {name, birthday})
                     this.$speech.addText("Today is not their birthday");
                 }
             }
@@ -113,6 +122,7 @@ app.setHandler({
             }
         }
     },
+    
     announcementsIntent(){
         //let sqValue = this.$inputs.SQ.value
         //let speech = this.speechBuilder();
