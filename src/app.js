@@ -85,12 +85,15 @@ app.setHandler({
                 let monthInSheet = birthday.substring(0,2);
                 console.log(dayInSheet);
                 console.log(monthInSheet);
-
+                
                 if(dayInSheet.includes(today) && monthInSheet.includes(month)){
-                    this.$speech.addT("response.playBirthday", {name}).addAudio("../audio/Happy_Birthday_to_You_Boi.mp3");
+                    //this.$speech.addT("response.playBirthday", {name}).addAudio("../audio/Happy_Birthday_to_You_Boi.mp3");
+                    
+                    this.$speech.addText("Today is " + name + "'s birthday, let's celebrate!").addAudio("https://s3.amazonaws.com/lina1234/happy-birthday.mp3");
                 }
                 else{
-                    this.$speech.addT('response.birthday', {name, birthday})
+                    //this.$speech.addT('response.birthday', {name, birthday})
+                    this.$speech.addText("Today is not their birthday");
                 }
             }
         }
@@ -188,14 +191,15 @@ app.setHandler({
     ChallengeIntent(){
         var sheet = getSheet("challenge");
         let speech = this.speechBuilder();
+        let clapPath = 'https://s3.amazonaws.com/lina1234/clap.mp3'
         speech.addText('In third place is ' + this.t(sheet4[3][1]) + ' with ' + this.t(sheet4[3][2]) + ' points')
-                        .addAudio('../audio/ClapClap.mp3')
+                        .addAudio(clapPath)
                         .addBreak('300ms');
         speech.addText('In second place is ' + this.t(sheet4[2][1]) + ' with ' + this.t(sheet4[2][2]) + ' points')
-                        .addAudio('../audio/ClapClap.mp3')
+                        .addAudio(clapPath)
                         .addBreak('300ms');
         speech.addText('In First place is ' + this.t(sheet4[1][1]) + ' with ' + this.t(sheet4[1][2]) + ' points')
-                        .addAudio('../audio/ClapClap.mp3')
+                        .addAudio(clapPath)
                         .addBreak('300ms');
         this.ask(speech);
     },

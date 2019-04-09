@@ -29,13 +29,6 @@
 					"type": {
 						"alexa": "AMAZON.SearchQuery"
 					}
-				},
-				{
-					"name": "SQ",
-					"type": {
-						"alexa": "AMAZON.SearchQuery",
-						"dialogflow": "@sys.given-name"
-					}
 				}
 			]
 		},
@@ -112,6 +105,14 @@
 					},
 					{
 						"name": "AMAZON.StopIntent",
+						"samples": []
+					},
+					{
+						"name": "AMAZON.PauseIntent",
+						"samples": []
+					},
+					{
+						"name": "AMAZON.ResumeIntent",
 						"samples": []
 					}
 				]
