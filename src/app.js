@@ -84,18 +84,14 @@ app.setHandler({
             if(name === nameInSheet){
                 let birthday = sheet[j][DATE_INDEX];
 
-                let todayDate = new Date();
+                let currentDate = new Date();
                 
-                let today = String(todayDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes heres a workaround
-                let month = todayDate.getMonth() + 1;
-                console.log(todayDate);
-                console.log(today);
-                console.log(month);
+                let today = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes heres a workaround
+                let month = currentDate.getMonth() + 1;
 
-                let dayInSheet = birthday.substring(3,5);
                 let monthInSheet = birthday.substring(0,2);
-                console.log(dayInSheet);
-                console.log(monthInSheet);
+                let dayInSheet = birthday.substring(3,5);
+                
                 
                 if(dayInSheet.includes(today) && monthInSheet.includes(month)){
                     //"Today is " + name + "'s birthday, let's celebrate!"
@@ -122,7 +118,7 @@ app.setHandler({
             }
         }
     },
-    
+
     announcementsIntent(){
         //let sqValue = this.$inputs.SQ.value
         //let speech = this.speechBuilder();
