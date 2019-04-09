@@ -67,7 +67,7 @@ app.setHandler({
     
     //Open starting Handler
     LAUNCH() {
-        this.$speech.addT('response.greeting')
+        this.$speech.addT('greeting.help')
         this.ask(this.$speech);
     },
 
@@ -83,7 +83,6 @@ app.setHandler({
             let nameInSheet = sheet[j][NAME_INDEX];
             if(name === nameInSheet){
                 let birthday = sheet[j][DATE_INDEX];
-
                 let currentDate = new Date();
                 
                 let today = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes heres a workaround
@@ -95,11 +94,14 @@ app.setHandler({
                 
                 if(dayInSheet.includes(today) && monthInSheet.includes(month)){
                     //"Today is " + name + "'s birthday, let's celebrate!"
-                    this.$speech.addText(this.t('response.playBirthday', {name})).addAudio("https://s3.amazonaws.com/lina1234/happy-birthday.mp3");
+                    this.$speech.addText(this.t('birthday.play', {name})).addAudio("https://s3.amazonaws.com/lina1234/happy-birthday.mp3");
                 }
                 else{
-                    this.$speech.addText("Today is not their birthday");
+                    this.$speech.addText(this.t('birthday.date', {name, birthday}));
                 }
+            }
+            else{
+                this.$speech.addText(this.t('birthday.DNE', {name}));
             }
         }
         this.tell(this.$speech);
