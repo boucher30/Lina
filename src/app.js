@@ -71,26 +71,24 @@ app.setHandler({
         for(let j = 1; j < sheet.length; j++){
             let nameInSheet = sheet[j][NAME_INDEX];
             if(name === nameInSheet){
-                let dateInSheet = sheet[j][DATE_INDEX];
+                let birthday = sheet[j][DATE_INDEX];
 
                 let todayDate = new Date();
                 let today = todayDate.getDay();
                 let month = todayDate.getMonth() + 1;
 
-                let dayInSheet = dateInSheet.substring(3,5);
-                let monthInSheet = dateInSheet.substring(0,2);
-                
-                console.log(
-                    "Today's Day: " + today +
-                    "\nToday's Month: " + month + 
-                    "\nSheet's Day: " + dayInSheet + 
-                    "\nSheet's Month: " + monthInSheet
-                )
-                
-                this.$speech.addT('response.birthday', {name, date})
+                let dayInSheet = birthday.substring(3,5);
+                let monthInSheet = birthday.substring(0,2);
+
+                if(dayInSheet.includes(today) && monthInSheet.includes(month)){
+                    this.$speech.addT("response.playBirthday", {name}).addAudio("../audio/Happy_Birthday_to_You_Boi.mp3");
+                }
+                else{
+                    this.$speech.addT('response.birthday', {name, birthday})
+                }
             }
         }
-        this.ask(this.$speech);
+        this.tell(this.$speech);
     },
 
     QnAIntent() {
@@ -185,13 +183,13 @@ app.setHandler({
         var sheet = getSheet("challenge");
         let speech = this.speechBuilder();
         speech.addText('In third place is ' + this.t(sheet4[3][1]) + ' with ' + this.t(sheet4[3][2]) + ' points')
-                        .addAudio('./ClapClap.mp3')
+                        .addAudio('../audio/ClapClap.mp3')
                         .addBreak('300ms');
         speech.addText('In second place is ' + this.t(sheet4[2][1]) + ' with ' + this.t(sheet4[2][2]) + ' points')
-                        .addAudio('./ClapClap.mp3')
+                        .addAudio('../audio/ClapClap.mp3')
                         .addBreak('300ms');
         speech.addText('In First place is ' + this.t(sheet4[1][1]) + ' with ' + this.t(sheet4[1][2]) + ' points')
-                        .addAudio('./ClapClap.mp3')
+                        .addAudio('../audio/ClapClap.mp3')
                         .addBreak('300ms');
         this.ask(speech);
     },
