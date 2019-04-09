@@ -74,11 +74,17 @@ app.setHandler({
                 let birthday = sheet[j][DATE_INDEX];
 
                 let todayDate = new Date();
-                let today = todayDate.getDay();
+                
+                let today = String(todayDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes heres a workaround
                 let month = todayDate.getMonth() + 1;
+                console.log(todayDate);
+                console.log(today);
+                console.log(month);
 
                 let dayInSheet = birthday.substring(3,5);
                 let monthInSheet = birthday.substring(0,2);
+                console.log(dayInSheet);
+                console.log(monthInSheet);
 
                 if(dayInSheet.includes(today) && monthInSheet.includes(month)){
                     this.$speech.addT("response.playBirthday", {name}).addAudio("../audio/Happy_Birthday_to_You_Boi.mp3");
