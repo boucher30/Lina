@@ -17,11 +17,9 @@ const https = require('https');
 const NAME_INDEX = 0;
 const DATE_INDEX = 1;
 const POINTS_INDEX = 1;
+const NUM_OF_ANNOUNCEMENTS_INDEX = 1;
 
 const app = new App();
-var x = 0;
-var y = 0;
-var announcementstext = ""; 
 
 app.use(
     new Alexa(),
@@ -101,7 +99,7 @@ app.setHandler({
                 let birthday = sheet[j][DATE_INDEX];
                 let currentDate = new Date();
                 
-                let today = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes heres a workaround
+                let today = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes so heres a workaround
                 let month = currentDate.getMonth() + 1;
 
                 let monthInSheet = birthday.substring(0,2);
@@ -126,8 +124,7 @@ app.setHandler({
 
     QnAIntent() {
         let sqValue = this.$inputs.SQ.value
-
-        var sheet = getSheet("questions");
+         var sheet = getSheet("questions");
 
         //this.tell(this.t(sheet[0][1]))
         for (let x = 0; x < sheet.length; x++){
@@ -139,47 +136,43 @@ app.setHandler({
     },
 
     announcementsIntent(){
-        //let sqValue = this.$inputs.SQ.value
-        //let speech = this.speechBuilder();
+        let sheet = getSheet("announcements");
+        let empty = true;
+        let currentDate = new Date();
+          
+            
+        let month = currentDate.getMonth() + 1;
+        let today = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes so heres a workaround
 
-        var sheet = getSheet("announcements");
+        console.log('cMonth: ' + month)
+        console.log('cDay: ' + today + '\n')
+        
+        this.tell(JSON.stringify(sheet));
+        //this.$speech.addText("The announcements for today are as follows: ");
+        //this.$speech.addT(this.t(sheet[1][2]));
+        // for(let x = 1; x < sheet.length; x++){
+        //     let announcementDate = sheet[x][0];
+        //     let monthInSheet = announcementDate.substring(0,2);
+        //     let dayInSheet = announcementDate.substring(3,5);
+        //     console.log('sMonth: ' + monthInSheet)
+        //     console.log('sDay: ' + dayInSheet+ '\n')
+            
 
-        var datetoday = getToDate();
-        console.log(this.t(sheet[1][2]));
-        for (x = 0; x < sheet.length; x++){
 
-            if (this.t(sheet[x][0]) == datetoday){
-                //this.ask(this.t(sheet[x][1]))
-                var numData = this.t(sheet[x][1]);
-                var rnum = parseInt(numData);
-                announcementstext = announcementstext + "The Announcments are";
-                for (y = 2; y < rnum+2; y++){
-                    console.log(x);
-                    console.log(y);
-                    //console.log(x);
-                    //announcementstext = announcementstext + this.t(sheet[x][y]);
-                    console.log(this.t(sheet[x][y]));//1, 2/3
-                    announcementstext= announcementstext.concat(this.t(sheet[x][y]))
-                    //print(y);
-                    //this.$speech.addText(this.t(sheet[x][y]))
-                                //.addBreak('300ms');
-                    //speech.addText(this.t(sheet[x][y]));
+        //     if(dayInSheet.includes(today) && monthInSheet.includes(month)){
+        //         let numOfAnnouncements = sheet[x][NUM_OF_ANNOUNCEMENTS_INDEX];
+        //         for(let y = NUM_OF_ANNOUNCEMENTS_INDEX + 1; y <= numOfAnnouncements; y++){
+        //             console.log('y ' + y)
                     
-                }
-                console.log(announcementstext);
-                //this.tell(announcementstext);
-                //this.tell(this.$speech);
-                //this.tell(speech);
-            }
-        }
-        //this.tell(datetoday)
-        //this.tell(this.t(sheet[0][1]))
-        //for (let x = 0; x < sheet.length; x++){
-
-        //    if (this.t(sheet[x][0]) == sqValue){
-        //        this.ask(this.t(sheet[x][1]))
-        //    }
-        //}
+        //         }
+        //         empty = false;
+        //         break;
+        //     }
+        // }
+        // if(empty){
+        //     this.$speech.addText("There are none today.")
+        // }
+        // this.ask(this.$speech);
     },
 
     
