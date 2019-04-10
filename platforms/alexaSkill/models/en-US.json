@@ -18,6 +18,14 @@
 					]
 				},
 				{
+					"name": "ChallengeIntent",
+					"samples": [
+						"Who are the winners of this challenge",
+						"Who is in the top three",
+						"who has placed on top of this challenge"
+					]
+				},
+				{
 					"name": "QnAIntent",
 					"samples": [
 						"find out {SQ}",

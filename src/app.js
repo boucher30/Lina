@@ -16,6 +16,8 @@ const https = require('https');
 //Declare Sheet global constants here
 const NAME_INDEX = 0;
 const DATE_INDEX = 1;
+const POINTS_INDEX = 1;
+
 const app = new App();
 var x = 0;
 var y = 0;
@@ -47,9 +49,23 @@ function getSheet(name){
     }
     return sheet;
 }
-// ------------------------------------------------------------------
-// APP LOGIC
-// ------------------------------------------------------------------
+
+//Used for the challenge intent for loop
+function getRank(place){
+    let value;
+    switch(place){
+        case 1:
+            value = "first";
+            break;
+        case 2:
+            value = "second";
+            break;
+        case 3:
+            value = "third";
+            break;
+    }
+    return value;
+}
 
 //Print out the date in a user friendly format
 function getToDate(){
@@ -102,9 +118,10 @@ app.setHandler({
             }
             else{
                 this.$speech.addText(this.t('birthday.DNE', {name}));
+                break; //gets us out of the loop
             }
         }
-        this.tell(this.$speech);
+        this.ask(this.$speech);
     },
 
     QnAIntent() {
@@ -195,21 +212,21 @@ app.setHandler({
         this.ask("You should visit Tania's class to learn that. Just kidding it is " + mulitplynum);
     },
 
+    /*
 
+        We can always grab the first 3 rows because the data sheet is sorted
+        You can sort by selecting the two rows Data > Sort Range > Check data has header > Z->A
+    */
     ChallengeIntent(){
         var sheet = getSheet("challenge");
-        let speech = this.speechBuilder();
-        let clapPath = 'https://s3.amazonaws.com/lina1234/clap.mp3'
-        speech.addText('In third place is ' + this.t(sheet4[3][1]) + ' with ' + this.t(sheet4[3][2]) + ' points')
-                        .addAudio(clapPath)
-                        .addBreak('300ms');
-        speech.addText('In second place is ' + this.t(sheet4[2][1]) + ' with ' + this.t(sheet4[2][2]) + ' points')
-                        .addAudio(clapPath)
-                        .addBreak('300ms');
-        speech.addText('In First place is ' + this.t(sheet4[1][1]) + ' with ' + this.t(sheet4[1][2]) + ' points')
-                        .addAudio(clapPath)
-                        .addBreak('300ms');
-        this.ask(speech);
+
+        for(let j = 3; j >= 1; j--){
+            let name = this.t(sheet[j][NAME_INDEX]);
+            let rank = getRank(j);
+            let points = this.t(sheet[j][POINTS_INDEX]);
+            this.$speech.addText(this.t('challenge.rankings', {rank, name, points})).addAudio('https://s3.amazonaws.com/lina1234/clap.mp3').addBreak('500ms');
+        }
+        this.ask(this.$speech);
     },
 
 

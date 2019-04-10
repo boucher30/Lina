@@ -17,6 +17,14 @@
 			]
 		},
 		{
+			"name": "ChallengeIntent",
+			"phrases": [
+				"Who are the winners of this challenge",
+				"Who is in the top three",
+				"who has placed on top of this challenge"
+			]
+		},
+		{
 			"name": "QnAIntent",
 			"phrases": [
 				"find out {SQ}",
