@@ -155,8 +155,7 @@ app.setHandler({
 
             if(dayInSheet.includes(today) && monthInSheet.includes(month)){
                 let numOfAnnouncements = Number(sheet[x][NUM_OF_ANNOUNCEMENTS_INDEX]) + 2;
-                console.log("num of an: " + numOfAnnouncements);
-                for(let y = 2; y < numOfAnnouncements ; y++){
+                for(let y = 2; y < numOfAnnouncements; y++){
                     this.$speech.addText(sheet[x][y]);
                 }
                 empty = false;
