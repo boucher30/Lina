@@ -31,7 +31,7 @@ module.exports = {
                 },
                 {
                     name: 'announcements',
-                    type: 'ObjectArray',
+                    range: 'A:Z',
                     position: 3,
                 },
                 {

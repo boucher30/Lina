@@ -93,19 +93,21 @@ app.setHandler({
     BirthdayIntent() {
         var sheet = getSheet("birthdays");
         let name = this.$inputs.name.value;
+        let noBirthday = true;
         for(let j = 1; j < sheet.length; j++){
             let nameInSheet = sheet[j][NAME_INDEX];
             if(name === nameInSheet){
+                noBirthday = false;
                 let birthday = sheet[j][DATE_INDEX];
                 let currentDate = new Date();
                 
                 let today = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes so heres a workaround
                 let month = currentDate.getMonth() + 1;
-
+                console.log(today + " " + month + "\n");
                 let monthInSheet = birthday.substring(0,2);
                 let dayInSheet = birthday.substring(3,5);
-                
-                
+                console.log(monthInSheet + " " + dayInSheet);
+                console.log(dayInSheet.includes(today) && monthInSheet.includes(month));
                 if(dayInSheet.includes(today) && monthInSheet.includes(month)){
                     //"Today is " + name + "'s birthday, let's celebrate!"
                     this.$speech.addText(this.t('birthday.play', {name})).addAudio("https://s3.amazonaws.com/lina1234/happy-birthday.mp3");
@@ -113,11 +115,11 @@ app.setHandler({
                 else{
                     this.$speech.addText(this.t('birthday.date', {name, birthday}));
                 }
-            }
-            else{
-                this.$speech.addText(this.t('birthday.DNE', {name}));
-                break; //gets us out of the loop
-            }
+            } 
+        }
+        if(noBirthday)
+        {
+            this.$speech.addText(this.t('birthday.DNE', {name}));
         }
         this.ask(this.$speech);
     },
@@ -143,36 +145,28 @@ app.setHandler({
             
         let month = currentDate.getMonth() + 1;
         let today = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes so heres a workaround
+    
+        this.$speech.addText("The announcements for today are as follows: ");
 
-        console.log('cMonth: ' + month)
-        console.log('cDay: ' + today + '\n')
-        
-        this.tell(JSON.stringify(sheet));
-        //this.$speech.addText("The announcements for today are as follows: ");
-        //this.$speech.addT(this.t(sheet[1][2]));
-        // for(let x = 1; x < sheet.length; x++){
-        //     let announcementDate = sheet[x][0];
-        //     let monthInSheet = announcementDate.substring(0,2);
-        //     let dayInSheet = announcementDate.substring(3,5);
-        //     console.log('sMonth: ' + monthInSheet)
-        //     console.log('sDay: ' + dayInSheet+ '\n')
-            
+        for(let x = 1; x < sheet.length; x++){
+            let announcementDate = sheet[x][0];
+            let monthInSheet = announcementDate.substring(0,2);
+            let dayInSheet = announcementDate.substring(3,5);
 
-
-        //     if(dayInSheet.includes(today) && monthInSheet.includes(month)){
-        //         let numOfAnnouncements = sheet[x][NUM_OF_ANNOUNCEMENTS_INDEX];
-        //         for(let y = NUM_OF_ANNOUNCEMENTS_INDEX + 1; y <= numOfAnnouncements; y++){
-        //             console.log('y ' + y)
-                    
-        //         }
-        //         empty = false;
-        //         break;
-        //     }
-        // }
-        // if(empty){
-        //     this.$speech.addText("There are none today.")
-        // }
-        // this.ask(this.$speech);
+            if(dayInSheet.includes(today) && monthInSheet.includes(month)){
+                let numOfAnnouncements = Number(sheet[x][NUM_OF_ANNOUNCEMENTS_INDEX]) + 2;
+                console.log("num of an: " + numOfAnnouncements);
+                for(let y = 2; y < numOfAnnouncements ; y++){
+                    this.$speech.addText(sheet[x][y]);
+                }
+                empty = false;
+                break;
+            }
+        }
+        if(empty){
+            this.$speech.addText("There are none today.")
+        }
+        this.ask(this.$speech);
     },
 
     

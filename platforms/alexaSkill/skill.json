@@ -4,7 +4,7 @@
 			"custom": {
 				"endpoint": {
 					"sslCertificateType": "Wildcard",
-					"uri": "arn:aws:lambda:us-east-1:670378695665:function:Lina"
+					"uri": "$(JOVO_WEBHOOK)"
 				},
 				"interfaces": [
 					{

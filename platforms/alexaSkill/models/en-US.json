@@ -42,6 +42,7 @@
 				{
 					"name": "announcementsIntent",
 					"samples": [
+						"what are today's announcements",
 						"announcements please",
 						"what about the announcements",
 						"what are the announcements",
