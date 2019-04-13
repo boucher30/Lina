@@ -218,6 +218,14 @@ app.setHandler({
 
     CreditsIntent(){
         this.ask("Thanks to RJ and Vlad for programing this using Jovo and Google Sheets. Also thanks to Anita for maintaining the database for this project and Dov for comming up with the idea");
+    },
+    DisplayTestIntent(){
+        let title = 'PICA CHUUUUUUUUU';
+        let content = 'PICA CHUUUUUUUUUUUUUUU';
+        let imageUrl = 'https://s3.amazonaws.com/lina1234/tenor.gif';
+
+        this.showImageCard(title, content, imageUrl)
+            .tell('This is the PICA CHUUUUUUUUU');
     }
 });
 

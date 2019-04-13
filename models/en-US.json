@@ -98,6 +98,15 @@
 					}
 				  }
 			]
+		},
+		{
+			"name": "DisplayTestIntent",
+			"phrases": [
+			"activate",
+            "activate GIF",
+            "display",
+            "display GIF"
+			]
 		}
 	],
 	"alexa": {
