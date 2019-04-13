@@ -19,6 +19,6 @@ module.exports = {
         }
     },
     //arn:aws:lambda:us-east-1:670378695665:function:Lina
-    endpoint: '$(JOVO_WEBHOOK)',
+    endpoint: 'arn:aws:lambda:us-east-1:670378695665:function:Lina',
 };
  
