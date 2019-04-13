@@ -1,48 +1,47 @@
 {
-	"manifest": {
-		"apis": {
-			"custom": {
-				"endpoint": {
-					"sslCertificateType": "Wildcard",
-					"uri": "$(JOVO_WEBHOOK)"
-				},
-				"interfaces": [
-					{
-						"type": "AUDIO_PLAYER"
-					}
-				]
-			}
-		},
-		"manifestVersion": "1.0",
-		"privacyAndCompliance": {
-			"locales": {
-				"en-US": {}
-			},
-			"allowsPurchases": false,
-			"usesPersonalInfo": false,
-			"isChildDirected": false,
-			"isExportCompliant": true,
-			"containsAds": false
-		},
-		"publishingInformation": {
-			"locales": {
-				"en-US": {
-					"name": "Lina",
-					"smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/cc45/8292ffa828b8428a90a87dec926bee4f/APP_ICON?versionId=2v2ytt1RktMxPDeApqyo3ys_c9ZZPMES&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1554868457&Signature=MDvw15xt5KsSA9rYlxcQsGscva0%3D",
-					"largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/b134/527e71263a244421b1bcd389d2043d0d/APP_ICON_LARGE?versionId=9b7Jg4d4TAptFYIywpc6l2fzRWmk_RHi&AWSAccessKeyId=AKIAJFEYRBGIHK2BBYKA&Expires=1554868457&Signature=MnRisTRFDayQV6wknstDzYhc39M%3D",
-					"summary": "South Jersey Innovation Center's personal assistant.",
-					"description": "This skill provides a beautiful interface, known as Lina, to open the world of the SJIC. Ask Lina frequently asked questions about past and upcoming events. Learn more about the content the center provides. You can even engage the students by playing their birthday.",
-					"examplePhrases": [
-						"Alexa open lina"
-					],
-					"keywords": [],
-					"updatesDescription": "- Event Calendar\n- Birthdays\n-Announcements(Kinda Broken)"
-				}
-			},
-			"isAvailableWorldwide": true,
-			"testingInstructions": "Sample Testing Instructions.",
-			"category": "EDUCATION_AND_REFERENCE",
-			"distributionCountries": []
-		}
-	}
+  "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "https://webhook.jovo.cloud/4d584d0f-b244-4b91-847c-1efcacd007da"
+        },
+        "interfaces": [
+          {
+            "type": "AUDIO_PLAYER"
+          }
+        ]
+      }
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "locales": {
+        "en-US": {}
+      },
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false
+    },
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "name": "Lina",
+          "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/cc45/8292ffa828b8428a90a87dec926bee4f/APP_ICON?versionId=2v2ytt1RktMxPDeApqyo3ys_c9ZZPMES&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20190413T155317Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIAJFEYRBGIHK2BBYKA%2F20190413%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=ac5d99252fd49e8cbd463baeba3bd922af681a87a7f110f5b0e5d88732e2066e",
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/b134/527e71263a244421b1bcd389d2043d0d/APP_ICON_LARGE?versionId=9b7Jg4d4TAptFYIywpc6l2fzRWmk_RHi&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20190413T155317Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIAJFEYRBGIHK2BBYKA%2F20190413%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=0b77ad47bab485219b31ab025754bd85c837149d97f798bbf684fcf210968e64",
+          "summary": "South Jersey Innovation Center's personal assistant.",
+          "description": "This skill provides a beautiful interface, known as Lina, to open the world of the SJIC. Ask Lina frequently asked questions about past and upcoming events. Learn more about the content the center provides. You can even engage the students by playing their birthday.",
+          "examplePhrases": [
+            "Alexa open lina"
+          ],
+          "keywords": [],
+          "updatesDescription": "- Event Calendar\n- Birthdays\n-Announcements(Kinda Broken)"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Sample Testing Instructions.",
+      "category": "EDUCATION_AND_REFERENCE",
+      "distributionCountries": []
+    }
+  }
 }
