@@ -29,6 +29,18 @@ app.use(
 );
 
 //Point app to the desired sheet to get required data
+function dateCheck(from,to,check) {
+
+    var fDate,lDate,cDate;
+    fDate = Date.parse(from);
+    lDate = Date.parse(to);
+    cDate = Date.parse(check);
+
+    if((cDate <= lDate && cDate >= fDate)) {
+        return true;
+    }
+    return false;
+}
 function getSheet(name){
     var sheet;
     switch(name){
@@ -89,6 +101,12 @@ app.setHandler({
         Takes in a name from user, compares it to the birthdays sheet. Will
         report their birthday date unless it is the current date
         and will instead play a celebratory song.
+    */
+    /*
+    if(dateCheck("02/05/2013","02/09/2013","02/07/2013"))
+        alert("Availed");
+    else
+        alert("Not Availed");
     */
     BirthdayIntent() {
         var sheet = getSheet("birthdays");
@@ -222,7 +240,7 @@ app.setHandler({
     DisplayTestIntent(){
         let title = 'PICA CHUUUUUUUUU';
         let content = 'PICA CHUUUUUUUUUUUUUUU';
-        let imageUrl = 'https://s3.amazonaws.com/lina1234/tenor.gif';
+        let imageUrl = 'https://ih0.redbubble.net/image.562324868.7631/mwo,x1000,ipad_2_snap-pad,750x1000,f8f8f8.lite-1u3.jpg';
 
         this.showImageCard(title, content, imageUrl)
             .tell('This is the PICA CHUUUUUUUUU');
