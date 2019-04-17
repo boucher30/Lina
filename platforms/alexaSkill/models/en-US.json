@@ -124,10 +124,45 @@
             "display",
             "display GIF"
           ]
+        },
+        {
+          "name": "CreditsIntent",
+          "slots": [],
+          "samples": [
+            "who made this",
+            "who made this app",
+            "tell me the credits"
+          ]
+        },
+        {
+          "name": "SuperSecretIntent",
+          "slots": [
+            {
+              "name": "code",
+              "type": "AMAZON.FOUR_DIGIT_NUMBER"
+            }
+          ],
+          "samples": [
+            "{code} is the code",
+            "the code is {code}"
+          ]
+        },
+        {
+          "name": "BirthdayWMIntent",
+          "slots": [
+            {
+              "name": "thing",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "are there any birthdays this {thing}",
+            "This is a temporay intent and should be removed when consolodating with others"
+          ]
         }
       ],
       "types": []
     }
   },
-  "version": "46"
+  "version": "57"
 }
