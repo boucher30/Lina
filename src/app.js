@@ -93,33 +93,54 @@ app.setHandler({
     BirthdayIntent() {
         var sheet = getSheet("birthdays");
         let name = this.$inputs.name.value;
-        let noBirthday = true;
-        for(let j = 1; j < sheet.length; j++){
-            let nameInSheet = sheet[j][NAME_INDEX];
-            if(name === nameInSheet){
-                noBirthday = false;
-                let birthday = sheet[j][DATE_INDEX];
-                let currentDate = new Date();
-                
-                let today = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes so heres a workaround
-                let month = currentDate.getMonth() + 1;
-                console.log(today + " " + month + "\n");
-                let monthInSheet = birthday.substring(0,2);
-                let dayInSheet = birthday.substring(3,5);
-                console.log(monthInSheet + " " + dayInSheet);
-                console.log(dayInSheet.includes(today) && monthInSheet.includes(month));
-                if(dayInSheet.includes(today) && monthInSheet.includes(month)){
-                    //"Today is " + name + "'s birthday, let's celebrate!"
-                    this.$speech.addText(this.t('birthday.play', {name})).addAudio("https://s3.amazonaws.com/lina1234/happy-birthday.mp3");
-                }
-                else{
-                    this.$speech.addText(this.t('birthday.date', {name, birthday}));
-                }
-            } 
+        if(name){ //if we're given a specific name to find
+            let noBirthday = true;
+            for(let j = 1; j < sheet.length; j++){
+                let nameInSheet = sheet[j][NAME_INDEX];
+                if(name === nameInSheet){
+                    noBirthday = false;
+                    let birthday = sheet[j][DATE_INDEX];
+                    let currentDate = new Date();
+                    
+                    let today = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes so heres a workaround
+                    let month = currentDate.getMonth() + 1;
+
+                    let monthInSheet = birthday.substring(0,2);
+                    let dayInSheet = birthday.substring(3,5);
+                    
+                    if(dayInSheet.includes(today) && monthInSheet.includes(month)){
+                        //"Today is " + name + "'s birthday, let's celebrate!"
+                        this.$speech.addText(this.t('birthday.play', {name})).addAudio("https://s3.amazonaws.com/lina1234/happy-birthday.mp3");
+                    }
+                    else{
+                        this.$speech.addText(this.t('birthday.date', {name, birthday}));
+                    }
+                } 
+            }
+            if(noBirthday)
+            {
+                this.$speech.addText(this.t('birthday.DNE', {name}));
+            }
         }
-        if(noBirthday)
-        {
-            this.$speech.addText(this.t('birthday.DNE', {name}));
+        else{//finding a list of names in desired time frame
+            let timeframe = this.$inputs.timeframe.value;
+            console.log(timeframe);
+            let names = [];
+            for(let j = 1; j < sheet.length; j++){
+                let birthday = sheet[j][DATE_INDEX];
+                let name = sheet[j][NAME_INDEX];
+                let birthdayMonth = birthday.substring(0,2);
+                console.log(name + " " + birthdayMonth);
+
+                if(timeframe.includes(birthdayMonth)){
+                    names.push(name);
+                    console.log(j);
+                }
+            }
+            
+            for(let k = 0; k < names.length; k++){
+                this.$speech.addText(names[k]);
+            }
         }
         this.ask(this.$speech);
     },
@@ -129,7 +150,7 @@ app.setHandler({
          var sheet = getSheet("questions");
 
         //this.tell(this.t(sheet[0][1]))
-        for (let x = 0; x < sheet.length; x++){
+        for (let x =0; x < sheet.length; x++){
 
             if (this.t(sheet[x][0]) == sqValue){
                 this.ask(this.t(sheet[x][1]))
