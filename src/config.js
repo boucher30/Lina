@@ -43,6 +43,18 @@ module.exports = {
                     type: 'Responses',
                     position: 5,
                 },
+                {
+                    name: 'teachers',
+                    position: 6,
+                },
+                {
+                    name: 'classes',
+                    position: 7,
+                },
+                {
+                    name: 'quiz',
+                    position: 8,
+                },
             ]
         }
     },

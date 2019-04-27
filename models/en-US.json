@@ -33,7 +33,7 @@
 			]
 		},
 		{
-			"name": "QnAIntent",
+			"name": "QuestionsIntent",
 			"phrases": [
 				"find out {SQ}",
             	"search for {SQ}",
@@ -49,7 +49,7 @@
 			]
 		},
 		{
-			"name": "announcementsIntent",
+			"name": "AnnouncementsIntent",
 			"phrases": [
 				"what are today's announcements",
 				"announcements please",
@@ -59,13 +59,18 @@
 			]
 		},
 		{
-			"name": "SignupInitIntent",
+			"name": "TeacherIntent",
 			"phrases": [
-				"i would like to signup as {username}"
+				"what does {name} do at the South Jersey innovation center",
+				"what work does {name} do here",
+				"what does {name} do",
+				"what classes does {name} teach",
+				"who are the teachers",
+				"who teaches a class here"
 			],
 			"inputs": [
 				{
-					"name": "username",
+					"name": "name",
 					"type": {
 						"alexa": "AMAZON.US_FIRST_NAME"
 					}
@@ -73,14 +78,36 @@
 			]
 		},
 		{
-			"name": "SignupBaseIntent",
+			"name": "QuizOfTheDayIntent",
 			"phrases": [
-				"for {classes}",
-				"I would like to sign up for {classes}"
+				"it's {answer}",
+				"the answer is {answer}",
+				"give me a question",
+				"what is the quiz of the day",
+				"what is the question of the day",
+				"give me a quiz"
 			],
 			"inputs": [
 				{
-					"name": "classes",
+					"name": "answer",
+					"type": {
+						"alexa": "AMAZON.SearchQuery"
+					}
+				}
+			]
+		},
+		{
+			"name": "ClassIntent",
+			"phrases": [
+				"when is {class} class",
+				"when is {class}",
+				"what classes are taught at the SJIC",
+				"what classes are taught at the South Jersey Innovation Center",
+				"what is the class list"
+			],
+			"inputs": [
+				{
+					"name": "class",
 					"type": {
 						"alexa": "AMAZON.SearchQuery"
 					}
@@ -105,15 +132,6 @@
 						"alexa": "AMAZON.NUMBER"
 					}
 				  }
-			]
-		},
-		{
-			"name": "DisplayTestIntent",
-			"phrases": [
-			"activate",
-            "activate GIF",
-            "display",
-            "display GIF"
 			]
 		}
 	],
@@ -140,6 +158,10 @@
 					{
 						"name": "AMAZON.ResumeIntent",
 						"samples": []
+					},
+					{
+						"name": "AMAZON.FallbackIntent",
+						"samples": ["Sorry I didn't get that. Please say it again."]
 					}
 				]
 			}

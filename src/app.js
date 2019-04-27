@@ -44,6 +44,15 @@ function getSheet(name){
         case "challenge":
             sheet = app.$cms.challenge.slice();
             break;
+        case "teachers":
+            sheet = app.$cms.teachers.slice();
+            break;
+        case "classes":
+            sheet = app.$cms.classes.slice();
+            break;
+        case "quiz":
+            sheet = app.$cms.quiz.slice();
+            break;
     }
     return sheet;
 }
@@ -94,9 +103,10 @@ app.setHandler({
         var sheet = getSheet("birthdays");
         let name = this.$inputs.name.value;
         if(name){ //if we're given a specific name to find
+        name = String(name).toLowerCase();
             let noBirthday = true;
             for(let j = 1; j < sheet.length; j++){
-                let nameInSheet = sheet[j][NAME_INDEX];
+                let nameInSheet = String(sheet[j][NAME_INDEX]).toLowerCase();
                 if(name === nameInSheet){
                     noBirthday = false;
                     let birthday = sheet[j][DATE_INDEX];
@@ -124,41 +134,59 @@ app.setHandler({
         }
         else{//finding a list of names in desired time frame
             let timeframe = this.$inputs.timeframe.value;
-            console.log(timeframe);
+            let currentDate = new Date();
+            let week = true;
+            if(timeframe.includes('W')){
+                week = true;
+                this.$speech.addText("This week is ");
+            }
+            else{
+                this.$speech.addText("This month is ")
+            }
             let names = [];
             for(let j = 1; j < sheet.length; j++){
                 let birthday = sheet[j][DATE_INDEX];
                 let name = sheet[j][NAME_INDEX];
                 let birthdayMonth = birthday.substring(0,2);
-                console.log(name + " " + birthdayMonth);
-
-                if(timeframe.includes(birthdayMonth)){
-                    names.push(name);
-                    console.log(j);
+                let birthdayDay = birthday.substring(3,5);
+                console.log("day " + birthdayDay + "\n");
+                if(week){ //looking for birthdays in the current week
+                    let today = String(currentDate.getDate()).padStart(2,'0');
+                    console.log("today " + today + "\n");
+                    console.log("plus 7 " + (Number(today) + 7));
+                    if(timeframe.includes(birthdayMonth) && (birthdayDay < (Number(today) + 7) && (birthdayDay >= Number(today)))){
+                        names.push(name);
+                    }
+                }
+                else{ //looking for birthdays in the current month
+                    if(timeframe.includes(birthdayMonth)){
+                        names.push(name);
+                    }
                 }
             }
-            
             for(let k = 0; k < names.length; k++){
                 this.$speech.addText(names[k]);
+                this.$speech.addText("'s");
             }
         }
+        this.$speech.addText(" birthday");
         this.ask(this.$speech);
     },
 
-    QnAIntent() {
-        let sqValue = this.$inputs.SQ.value
-         var sheet = getSheet("questions");
+    QuestionsIntent() {
+        var sheet = getSheet("questions");
+        let question = String(this.$inputs.SQ.value).toLowerCase();
+        
 
-        //this.tell(this.t(sheet[0][1]))
         for (let x =0; x < sheet.length; x++){
-
-            if (this.t(sheet[x][0]) == sqValue){
-                this.ask(this.t(sheet[x][1]))
+            let questionInSheet = String(sheet[x][0]).toLowerCase();
+            if (questionInSheet.includes(question)){
+                this.ask(sheet[x][1])
             }
         }
     },
 
-    announcementsIntent(){
+    AnnouncementsIntent(){
         let sheet = getSheet("announcements");
         let empty = true;
         let currentDate = new Date();
@@ -189,28 +217,6 @@ app.setHandler({
         this.ask(this.$speech);
     },
 
-    
-    //SignupIntent(){
-    //    let cliname = this.$inputs.username.value
-    //    let classes = this.$inputs.classes.value
-    //    this.tell('hello ' + cliname + ', your signing up for ' + classes + ', please see Anita to complete you signup')//end
-    //}
-    SignupInitIntent(){
-        let cliname = this.$inputs.username.value
-        //also https.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', (resp) => {
-        //let data = '';
-        //https.get("https://bluemansrun.tk/AlexaParser/parsesignup.php?name="+cliname);
-        this.ask('hello '+ cliname + ' what would you like to sign up for?');//kill here
-    },
-
-
-    SignupBaseIntent(){
-        let classes = this.$inputs.classes.value
-        //write
-        //https.get("https://bluemansrun.tk/AlexaParser/parsesignup.php?classes="+classes);
-        this.ask("your signing up for " + classes + ', please see Anita to complete you signup');//kill here
-    },
-
 
     MultiplyIntent(){
         var numone = parseInt(this.$inputs.numone.value);
@@ -222,7 +228,7 @@ app.setHandler({
     /*
 
         We can always grab the first 3 rows because the data sheet is sorted
-        You can sort by selecting the two rows Data > Sort Range > Check data has header > Z->A
+        You can sort in Sheets by selecting the two rows Data > Sort Range > Check data has header > Z->A
     */
     ChallengeIntent(){
         var sheet = getSheet("challenge");
@@ -236,18 +242,74 @@ app.setHandler({
         this.ask(this.$speech);
     },
 
+    ClassIntent(){
+        var sheet = getSheet("classes");
+        let course = this.$inputs.class.value;
+        if(course){
+            course = String(this.$inputs.class.value).toLowerCase();
+            for(let x = 1; x < sheet.length; x++){
+                let courseInSheet = String(sheet[x][0]).toLowerCase();
+                let courseDetail = sheet[x][1];
+                if(courseInSheet.includes(course)){
+                    this.$speech.addText(courseDetail)
+                }
+            }
+        }else{
+            this.$speech.addText("The courses taught at the SJIC are as follows: ");
+            for(let x = 1; x < sheet.length; x++){
+                let courseInSheet = sheet[x][0];
+                this.$speech.addText(courseInSheet);
+                if(x == sheet.length-2){
+                    this.$speech.addText(" and ");
+                }
+            }
+        }
+        this.ask(this.$speech);
+    },
+
+    TeacherIntent(){
+        var sheet = getSheet("teachers");
+        let name = this.$inputs.name.value;
+        if(name){
+            name = String(this.$inputs.name.value).toLowerCase();
+            for(let x = 1; x < sheet.length; x++){
+                let nameInSheet = String(sheet[x][0]).toLowerCase();
+                let work = sheet[x][1];
+                if(name == nameInSheet){
+                    this.$speech.addText(name + " " + work);
+                }
+            }
+        }else{
+            this.$speech.addText("The teachers at the SJIC include: ");
+            for(let x = 1; x < sheet.length; x++){
+                this.$speech.addText(sheet[x][0]);
+                if(x == sheet.length-2){
+                    this.$speech.addText(" and ");
+                }
+            }
+        }   
+        this.ask(this.$speech);
+    },
+
+    QuizOfTheDayIntent(){
+        var sheet = getSheet("quiz");
+        let randomRow = Math.floor(Math.random() * (sheet.length -1 )) + 1;
+        let answer = sheet[randomRow][1];
+
+        this.ask(sheet[randomRow][0]);
+        let input = this.$inputs.answer.value;
+        if(input == answer){
+            this.ask("That's the correct answer!");
+        }
+        else{
+            this.ask("That is not correct.");
+        }
+    },
 
     CreditsIntent(){
         this.ask("Thanks to RJ and Vlad for programing this using Jovo and Google Sheets. Also thanks to Anita for maintaining the database for this project and Dov for comming up with the idea");
     },
-    DisplayTestIntent(){
-        let title = 'PICA CHUUUUUUUUU';
-        let content = 'PICA CHUUUUUUUUUUUUUUU';
-        let imageUrl = 'https://s3.amazonaws.com/lina1234/tenor.gif';
 
-        this.showImageCard(title, content, imageUrl)
-            .tell('This is the PICA CHUUUUUUUUU');
-    }
 });
 
 module.exports.app = app;
