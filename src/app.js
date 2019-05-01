@@ -179,6 +179,7 @@ app.setHandler({
             {
                 this.$speech.addText(this.t('birthday.DNE', {name}));
             }
+            this.ask(this.$speech);
         }
         else if(month){// grab all names that have a birthday in the specified month
             let upper = String(month).toUpperCase();
@@ -203,6 +204,7 @@ app.setHandler({
             let names = [];
             let numOfWeek;
             let numOfMonth;
+            let next = true;
             for(let j = 1; j < sheet.length; j++){
                 let birthday = sheet[j][DATE_INDEX];
                 let adjustedYear = String(birthday).substring(0,5) + "-" + String(currentDate.getFullYear()); //This way week numbers align for different years
@@ -215,6 +217,7 @@ app.setHandler({
                         numOfWeek = currentDate.getWeek();
                         console.log("Current " + numOfWeek);
                         console.log("Birth " + birthWeek);
+                        next = false;
                     }
                     else{
                         numOfWeek = currentDate.getWeek() + 1;
@@ -226,12 +229,13 @@ app.setHandler({
                 }
                 else{ //looking for birthdays this/next month
                     if(timeframe.includes('this')){
-                        numOfMonth = currentDate.getMonth();
+                        numOfMonth = currentDate.getMonth() + 1;
                         console.log("Current " + numOfMonth);
                         console.log("Birth " + birthMonth);
+                        next = false;
                     }
                     else{
-                        numOfMonth = currentDate.getMonth() + 1;
+                        numOfMonth = currentDate.getMonth() + 2;
                     }
 
                     if(birthMonth == numOfMonth){
@@ -243,7 +247,20 @@ app.setHandler({
                 this.$speech.addText(names[k]);
                 this.$speech.addText("'s");
             }
-            this.$speech.addText("birthday is " + String(timeframe));
+            let text = "";
+            if(next){
+                text = "next "
+            }
+            else{
+                text = "this "
+            }
+            if(week){
+                text += "week"
+            }
+            else{
+                text += "month"
+            }
+            this.$speech.addText("birthday is " + text);
             this.ask(this.$speech);    
         }
     },
