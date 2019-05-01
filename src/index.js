@@ -22,6 +22,7 @@ if (process.argv.indexOf('--webhook') > -1) {
 }
 
 // AWS Lambda
+//arn:aws:lambda:us-east-1:670378695665:function:Lina (RJ)
 exports.handler = async (event, context, callback) => {
     await app.handle(new Lambda(event, context, callback));
 };

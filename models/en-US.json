@@ -4,7 +4,7 @@
 		{
 			"name": "BirthdayIntent",
 			"phrases": [
-				"whose birthday is in {timeframe}",
+				"whose birthday is in {month}",
 				"whose birthday is {timeframe}",
 				"today is {name} birthday",
 				"when is {name} birthday"
@@ -14,6 +14,12 @@
 					"name": "name",
 					"type": {
 						"alexa": "AMAZON.US_FIRST_NAME"
+					}
+				},
+				{
+					"name": "month",
+					"type": {
+						"alexa": "AMAZON.Month"
 					}
 				},
 				{
@@ -57,6 +63,14 @@
 				"what are the announcements",
 				"tell me the announcements"
 			]
+		},
+		{
+			"name": "CorrectIntent",
+			"phrases": []
+		},
+		{
+			"name": "WrongIntent",
+			"phrases": []
 		},
 		{
 			"name": "TeacherIntent",
@@ -133,6 +147,11 @@
 					}
 				  }
 			]
+		},
+		{
+			"name": "Unhandled",
+			"phrases": [],
+			"inputs": []
 		}
 	],
 	"alexa": {

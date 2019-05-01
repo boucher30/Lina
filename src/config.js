@@ -7,6 +7,7 @@ module.exports = {
  
     intentMap: {
        'AMAZON.StopIntent': 'END',
+       'AMAZON.FallbackIntent': 'FallbackIntent'
     },
  
     db: {

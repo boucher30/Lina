@@ -74,16 +74,58 @@ function getRank(place){
     return value;
 }
 
-//Print out the date in a user friendly format
-function getToDate(){
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-    today = mm + '/' + dd + '/' + yyyy;
-    
-    return today;
+function getMonthID(month){
+    let value;
+    switch(month){
+        case 'JANUARY': 
+            value = '01';
+            break;
+        case 'FEBRUARY': 
+            value = '02';
+            break;
+        case 'MARCH': 
+            value = '03';
+            break;
+        case 'APRIL': 
+            value = '04';
+            break;
+        case 'MAY': 
+            value = '05';
+            break;
+        case 'JUNE': 
+            value = '06';
+            break;
+        case 'JULY': 
+            value = '07';
+            break;
+        case 'AUGUST': 
+            value = '08';
+            break;
+        case 'SEPTEMBER': 
+            value = '09';
+            break;
+        case 'OCTOBER': 
+            value = '10';
+            break;
+        case 'NOVEMBER': 
+            value = '11';
+            break;
+        case 'DECEMBER': 
+            value = '12';
+            break;
+    }
+    return value;
 }
+//Epoch time converter to get the current week number
+Date.prototype.getWeek = function() {
+    var date = new Date(this.getTime());
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    var week1 = new Date(date.getFullYear(), 0, 4);
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000- 3 + (week1.getDay() + 6) % 7) / 7);
+  }
+
+
 
 //Handler for all intents
 app.setHandler({
@@ -100,66 +142,99 @@ app.setHandler({
         and will instead play a celebratory song.
     */
     BirthdayIntent() {
+        //Sheet and all possible inputs
         var sheet = getSheet("birthdays");
-        let name = this.$inputs.name.value;
-        if(name){ //if we're given a specific name to find
-        name = String(name).toLowerCase();
-            let noBirthday = true;
+        let inputName = this.$inputs.name.value;
+        let month = this.$inputs.month.value;
+        let timeframe = this.$inputs.timeframe.value;
+
+
+
+        if(inputName){ //if we're given a specific name to find
+            inputName = String(inputName).toLowerCase();
+            let nameExists = false;
             for(let j = 1; j < sheet.length; j++){
                 let nameInSheet = String(sheet[j][NAME_INDEX]).toLowerCase();
-                if(name === nameInSheet){
-                    noBirthday = false;
-                    let birthday = sheet[j][DATE_INDEX];
-                    let currentDate = new Date();
-                    
-                    let today = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes so heres a workaround
-                    let month = currentDate.getMonth() + 1;
+                if(nameInSheet.includes(inputName)){
+                    nameExists = true; //the input name is found in the db
 
+                    let birthday = sheet[j][DATE_INDEX]; //parse the birthday and split it up
                     let monthInSheet = birthday.substring(0,2);
                     let dayInSheet = birthday.substring(3,5);
+
+                    let currentDate = new Date(); //parse the current date and split it up
+                    let currentDay = String(currentDate.getDate()).padStart(2,'0'); //getDay() method seems to return the wrong day sometimes so heres a workaround
+                    let currentMonth = currentDate.getMonth() + 1;
+
                     
-                    if(dayInSheet.includes(today) && monthInSheet.includes(month)){
-                        //"Today is " + name + "'s birthday, let's celebrate!"
-                        this.$speech.addText(this.t('birthday.play', {name})).addAudio("https://s3.amazonaws.com/lina1234/happy-birthday.mp3");
+                    if(dayInSheet.includes(currentDay) && monthInSheet.includes(currentMonth)){//if their birthday is today lets sing
+                        this.$speech.addText(this.t('birthday.play', {inputName})).addAudio("https://s3.amazonaws.com/lina1234/happy-birthday.mp3");
                     }
-                    else{
-                        this.$speech.addText(this.t('birthday.date', {name, birthday}));
+                    else{ //otherwise report their birthday
+                        this.$speech.addText(this.t('birthday.date', {inputName, birthday}));
                     }
                 } 
             }
-            if(noBirthday)
+            if(!nameExists) //the input name is never found, consider adding it to the db
             {
                 this.$speech.addText(this.t('birthday.DNE', {name}));
             }
         }
-        else{//finding a list of names in desired time frame
-            let timeframe = this.$inputs.timeframe.value;
+        else if(month){// grab all names that have a birthday in the specified month
+            let upper = String(month).toUpperCase();
+            let monthID = getMonthID(upper);
+            for(let x = 1; x < sheet.length; x++){
+                let date = sheet[x][DATE_INDEX];
+                let monthInSheet = date.substring(0,2);
+                if(monthInSheet.includes(monthID)){
+                    this.$speech.addText(sheet[x][NAME_INDEX])
+                }
+            }
+            this.ask(this.$speech);
+        }
+        else if(timeframe){//find a list of names in desired time frame
             let currentDate = new Date();
-            let week = true;
-            if(timeframe.includes('W')){
+            let week = false;
+
+            if(timeframe.includes('W') || timeframe.includes('w')){//AMAZON.DATE returns ISO date format '2019-W18'
                 week = true;
-                this.$speech.addText("This week is ");
             }
-            else{
-                this.$speech.addText("This month is ")
-            }
+
             let names = [];
+            let numOfWeek;
+            let numOfMonth;
             for(let j = 1; j < sheet.length; j++){
                 let birthday = sheet[j][DATE_INDEX];
+                let adjustedYear = String(birthday).substring(0,5) + "-" + String(currentDate.getFullYear()); //This way week numbers align for different years
+                let birthWeek = new Date(adjustedYear).getWeek(); //Returns the ISO week number of date in db
+
                 let name = sheet[j][NAME_INDEX];
-                let birthdayMonth = birthday.substring(0,2);
-                let birthdayDay = birthday.substring(3,5);
-                console.log("day " + birthdayDay + "\n");
-                if(week){ //looking for birthdays in the current week
-                    let today = String(currentDate.getDate()).padStart(2,'0');
-                    console.log("today " + today + "\n");
-                    console.log("plus 7 " + (Number(today) + 7));
-                    if(timeframe.includes(birthdayMonth) && (birthdayDay < (Number(today) + 7) && (birthdayDay >= Number(today)))){
+                let birthMonth = birthday.substring(0,2);
+                if(week){//Looking for birhdays is this/next week
+                    if(timeframe.includes('this')){
+                        numOfWeek = currentDate.getWeek();
+                        console.log("Current " + numOfWeek);
+                        console.log("Birth " + birthWeek);
+                    }
+                    else{
+                        numOfWeek = currentDate.getWeek() + 1;
+                    }
+
+                    if(birthWeek == numOfWeek){
                         names.push(name);
                     }
                 }
-                else{ //looking for birthdays in the current month
-                    if(timeframe.includes(birthdayMonth)){
+                else{ //looking for birthdays this/next month
+                    if(timeframe.includes('this')){
+                        numOfMonth = currentDate.getMonth();
+                        console.log("Current " + numOfMonth);
+                        console.log("Birth " + birthMonth);
+                    }
+                    else{
+                        numOfMonth = currentDate.getMonth() + 1;
+                    }
+
+                    if(birthMonth == numOfMonth){
                         names.push(name);
                     }
                 }
@@ -168,9 +243,9 @@ app.setHandler({
                 this.$speech.addText(names[k]);
                 this.$speech.addText("'s");
             }
+            this.$speech.addText("birthday is " + String(timeframe));
+            this.ask(this.$speech);    
         }
-        this.$speech.addText(" birthday");
-        this.ask(this.$speech);
     },
 
     QuestionsIntent() {
@@ -226,7 +301,6 @@ app.setHandler({
     },
 
     /*
-
         We can always grab the first 3 rows because the data sheet is sorted
         You can sort in Sheets by selecting the two rows Data > Sort Range > Check data has header > Z->A
     */
@@ -295,19 +369,40 @@ app.setHandler({
         var sheet = getSheet("quiz");
         let randomRow = Math.floor(Math.random() * (sheet.length -1 )) + 1;
         let answer = sheet[randomRow][1];
-
-        this.ask(sheet[randomRow][0]);
         let input = this.$inputs.answer.value;
-        if(input == answer){
-            this.ask("That's the correct answer!");
+        this.$speech.addText(sheet[randomRow][0]);
+        if(answer == input){
+            this.followUpState('AnswerState')
+            .ask(this.$speech);
         }
         else{
-            this.ask("That is not correct.");
+            this.followUpState('WrongState')
+            .ask(this.$speech);
         }
     },
 
+    CorrectState:{
+        CorrectIntent(){
+            this.ask("That's the correct answer!");
+        },
+    },
+
+    WrongState:{
+        WrongIntent(){
+            this.ask("That is not correct.");
+        },
+    },
+
+    Unhandled(){
+        this.ask(this.t('handle.error'));
+    },
+
     CreditsIntent(){
-        this.ask("Thanks to RJ and Vlad for programing this using Jovo and Google Sheets. Also thanks to Anita for maintaining the database for this project and Dov for comming up with the idea");
+        this.ask("Thanks to RJ and Vlad for programming this using Jovo and Google Sheets. Also thanks to Anita for maintaining the database for this project and Dov for comming up with the idea.");
+    },
+    
+    FallbackIntent(){
+        this.ask(this.t('handle.error'));
     },
 
 });
