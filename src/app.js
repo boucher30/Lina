@@ -18,6 +18,7 @@ const NAME_INDEX = 0;
 const DATE_INDEX = 1;
 const POINTS_INDEX = 1;
 const NUM_OF_ANNOUNCEMENTS_INDEX = 1;
+const TIMES_WRONG = 0;
 
 const app = new App();
 
@@ -384,30 +385,25 @@ app.setHandler({
 
     QuizOfTheDayIntent(){
         var sheet = getSheet("quiz");
+        //let counter = 0;
         let randomRow = Math.floor(Math.random() * (sheet.length -1 )) + 1;
         let answer = sheet[randomRow][1];
         let input = this.$inputs.answer.value;
         this.$speech.addText(sheet[randomRow][0]);
-        if(answer == input){
-            this.followUpState('AnswerState')
-            .ask(this.$speech);
+        if (TIMES_WRONG < 2){
+            if(answer == input){
+                this.tell("You Got it");
+            }
+            else{
+                this.ask("U Wrong");
+            }        
         }
-        else{
-            this.followUpState('WrongState')
-            .ask(this.$speech);
+        if (TIMES_WRONG == 2){
+            this.tell("Answer is " + answer);
         }
-    },
-
-    CorrectState:{
-        CorrectIntent(){
-            this.ask("That's the correct answer!");
-        },
-    },
-
-    WrongState:{
-        WrongIntent(){
-            this.ask("That is not correct.");
-        },
+        if (input){
+            this.ask(this.$speech);
+        }
     },
 
     Unhandled(){
