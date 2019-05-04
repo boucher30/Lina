@@ -5,3 +5,4 @@ bundle.zip
 .env
 .vscode/
 Modifications.txt
+scr/credentials/creds.json
