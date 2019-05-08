@@ -140,6 +140,8 @@ app.setHandler({
         Takes in a name from user, compares it to the birthdays sheet. Will
         report their birthday date unless it is the current date
         and will instead play a celebratory song.
+
+        ##This one is a douzy, prepare yourself
     */
     BirthdayIntent() {
         //Sheet and all possible inputs
@@ -147,6 +149,7 @@ app.setHandler({
         let inputName = this.$inputs.name.value;
         let month = this.$inputs.month.value;
         let timeframe = this.$inputs.timeframe.value;
+        let formatTimeframe = Number(String(timeframe).substring(6)); //Gets just the number from AMAZON.DATE
 
 
 
@@ -182,85 +185,107 @@ app.setHandler({
             this.ask(this.$speech);
         }
         else if(month){// grab all names that have a birthday in the specified month
+            let names = [];
             let upper = String(month).toUpperCase();
             let monthID = getMonthID(upper);
             for(let x = 1; x < sheet.length; x++){
                 let date = sheet[x][DATE_INDEX];
                 let monthInSheet = date.substring(0,2);
                 if(monthInSheet.includes(monthID)){
-                    this.$speech.addText(sheet[x][NAME_INDEX])
+                    names.push(sheet[x][NAME_INDEX])
                 }
+            }
+            for(let k = 0; k < names.length; k++){
+                this.$speech.addText(names[k]).addBreak('1000ms');
+            }
+            if(names.length == 0){
+                this.$speech.addText("No one has a birthday in " + month);
+            }
+            else if(names.length == 1){
+                this.$speech.addText(" has a birthday in " + month);
+            }
+            else{
+                this.$speech.addText(" have a birthday in " + month);
             }
             this.ask(this.$speech);
         }
         else if(timeframe){//find a list of names in desired time frame
+            
             let currentDate = new Date();
             let week = false;
-
+            let next = true;
             if(timeframe.includes('W') || timeframe.includes('w')){//AMAZON.DATE returns ISO date format '2019-W18'
                 week = true;
             }
 
+
             let names = [];
-            let numOfWeek;
-            let numOfMonth;
-            let next = true;
+            let numOfCurrWeek = currentDate.getWeek();
+            let numOfNextWeek = numOfCurrWeek + 1;
+            let numOfCurrMonth = currentDate.getMonth() + 1;
+            let numOfNextMonth = numOfCurrMonth + 1;
+
             for(let j = 1; j < sheet.length; j++){
-                let birthday = sheet[j][DATE_INDEX];
-                let adjustedYear = String(birthday).substring(0,5) + "-" + String(currentDate.getFullYear()); //This way week numbers align for different years
-                let birthWeek = new Date(adjustedYear).getWeek(); //Returns the ISO week number of date in db
-
+                let birthday = sheet[j][DATE_INDEX]; //date in the spreadsheet associated with a person
                 let name = sheet[j][NAME_INDEX];
-                let birthMonth = birthday.substring(0,2);
-                if(week){//Looking for birhdays is this/next week
-                    if(timeframe.includes('this')){
-                        numOfWeek = currentDate.getWeek();
-                        console.log("Current " + numOfWeek);
-                        console.log("Birth " + birthWeek);
-                        next = false;
-                    }
-                    else{
-                        numOfWeek = currentDate.getWeek() + 1;
-                    }
 
-                    if(birthWeek == numOfWeek){
-                        names.push(name);
+                let adjustedYear = String(birthday).substring(0,5) + "-" + String(currentDate.getFullYear()); //This way week numbers align for different years form the speadsheet
+                let birthWeek = new Date(adjustedYear).getWeek(); //Returns the ISO week number of each birthday from the spreadsheet 
+                let birthMonth = birthday.substring(0,2);
+
+                if(week){//Looking for birthdays this/next week
+                    if(numOfCurrWeek == formatTimeframe){ //this
+                        next=false;
+                        if(birthWeek == numOfCurrWeek){
+                            names.push(name);
+                        }
+                    }
+                    else if(numOfNextWeek == formatTimeframe){//next
+                        if(birthWeek == numOfNextWeek){
+                            names.push(name);
+                        }
                     }
                 }
                 else{ //looking for birthdays this/next month
-                    if(timeframe.includes('this')){
-                        numOfMonth = currentDate.getMonth() + 1;
-                        console.log("Current " + numOfMonth);
-                        console.log("Birth " + birthMonth);
-                        next = false;
+                    if(numOfCurrMonth == formatTimeframe){ //this
+                        next=false;
+                        if(birthMonth== numOfCurrMonth){
+                            names.push(name);
+                        }
                     }
-                    else{
-                        numOfMonth = currentDate.getMonth() + 2;
-                    }
-
-                    if(birthMonth == numOfMonth){
-                        names.push(name);
+                    else if(numOfNextMonth == formatTimeframe){//next
+                        if(birthMonth == numOfNextMonth){
+                            names.push(name);
+                        }
                     }
                 }
             }
             for(let k = 0; k < names.length; k++){
-                this.$speech.addText(names[k]);
-                this.$speech.addText("'s");
+                this.$speech.addText(names[k] + "'s").addBreak('1000ms');
             }
-            let text = "";
+            let timeframeSuffix = "";
             if(next){
-                text = "next "
+                timeframeSuffix = "next "
             }
             else{
-                text = "this "
+                timeframeSuffix = "this "
             }
             if(week){
-                text += "week"
+                timeframeSuffix += "week"
             }
             else{
-                text += "month"
+                timeframeSuffix += "month"
             }
-            this.$speech.addText("birthday is " + text);
+            if(names.length == 0){
+                this.$speech.addText("There are no birthdays " + timeframeSuffix);
+            }
+            else if(names.length == 1){
+                this.$speech.addText("birthday is " + timeframeSuffix);
+            }
+            else{
+                this.$speech.addText("birthdays are " + timeframeSuffix);
+            }
+            
             this.ask(this.$speech);    
         }
     },
